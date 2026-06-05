@@ -10,55 +10,51 @@ function createBot() {
     bot = mineflayer.createBot({
         host: 'kheerasmp.falix.me', 
         port: 25565,                
-        username: 'smp op'
+        username: 'DEVELOPER'
     });
 
     bot.on('spawn', () => {
-        console.log("🔥 Bot SMP me enter kar gaya hai aur non-stop movement shuru!");
+        console.log("🔥 Bot SMP me enter kar gaya hai! Anti-Cheat bypass movement active.");
         bot.chat('/gamemode creative');
 
-        // 🏃‍♂️ SUPER ACTIVE MOVEMENT LOOP (Har 1.5 Second me action badlega)
+        // 🏃‍♂️ NATURAL MOVEMENT LOOP (Har 3.5 Second me action badlega - Safe for Anti-Cheat)
         const moveInterval = setInterval(() => {
             if (!bot) return;
 
-            // Saare purane control states ko pehle clear karo
+            // Saare controls reset karo
             const allActions = ['forward', 'back', 'left', 'right', 'jump', 'sprint'];
             allActions.forEach(action => bot.setControlState(action, false));
 
-            // Randomly select movements
+            // Random direction select karo
             const movements = ['forward', 'back', 'left', 'right'];
             const randomMove = movements[Math.floor(Math.random() * movements.length)];
             
-            // 1. Chalna shuru karo
-            bot.setControlState(randomMove, true);
+            // 60% chance hai ki bot sach me chalega (baki 40% wo bas ek jagah khada hoke gardan ghumayega - ekdum real human look)
+            if (Math.random() > 0.4) {
+                bot.setControlState(randomMove, true);
 
-            // 2. 70% chance hai ki wo tez daudega (Sprint)
-            if (Math.random() > 0.3) {
-                bot.setControlState('sprint', true);
+                // 40% chance chalte-chalte halki si jump marne ki
+                if (Math.random() > 0.6) {
+                    bot.setControlState('jump', true);
+                }
             }
 
-            // 3. 50% chance hai ki wo chalte-chalte koodega (Jump)
-            if (Math.random() > 0.5) {
-                bot.setControlState('jump', true);
-            }
+            // 👀 LOOK LOGIC: Gardan ko dheere se hilaao (Bina lag ke)
+            const randomYaw = (Math.random() * Math.PI * 2) - Math.PI;
+            const randomPitch = (Math.random() * Math.PI * 0.2) - (Math.PI * 0.1); // Limit pitch taaki sir jhatke na mare
+            bot.look(randomYaw, randomPitch, false); // False matlab smoother transition
 
-            // 4. 👀 CAMERA MOVE: Gardan ko random direction me ghumao (Yaw & Pitch)
-            const randomYaw = (Math.random() * Math.PI * 2) - Math.PI; // -3.14 to 3.14
-            const randomPitch = (Math.random() * Math.PI * 0.4) - (Math.PI * 0.2); // Thoda upar neeche dekhna
-            bot.look(randomYaw, randomPitch, true);
-
-            // 1.2 second baad movement rok do (taaki agle 0.3 sec me naya random action ready ho sake)
+            // 2 second baad movement roko (1.5 second ka rest period taaki anti-cheat packet trigger na ho)
             setTimeout(() => {
                 if (bot) {
                     bot.setControlState(randomMove, false);
                     bot.setControlState('jump', false);
-                    bot.setControlState('sprint', false);
                 }
-            }, 1200);
+            }, 2000);
 
-        }, 1500); // ⏱️ Delay kam kar diya hai (1.5 Second)
+        }, 3500); // Delay badha kar 3.5 second kar diya hai taaki socket close na ho!
 
-        // Standard 2-hour break logic (Jo Falix ke logs me human break dikhane ke liye zaroori hai)
+        // Standard 2-hour break logic
         clearTimeout(playTimer);
         clearTimeout(leaveTimer);
 
@@ -81,11 +77,11 @@ function createBot() {
     });
 
     bot.on('end', (reason) => {
-        console.log(`Bot connection ended (${reason}).`);
-        if (bot) {
-            console.log("Unexpected disconnect! 10 second me try kar raha hu...");
-            setTimeout(createBot, 10000);
-        }
+        console.log(`Bot connection ended (${reason}). 10 second me firse try kar raha hu...`);
+        // Socket close hone par ye code 10 second me bot ko automatic rejoin karwayega!
+        setTimeout(() => {
+            if (!bot) createBot();
+        }, 10000);
     });
 
     bot.on('error', (err) => {
