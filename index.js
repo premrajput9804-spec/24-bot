@@ -25,9 +25,9 @@ function createBot() {
     console.log("Bot connect karne ki koshish kar raha hai...");
     
     bot = mineflayer.createBot({
-        host: 'kheerasmp.falix.gg', 
-        port: 40101,                
-        username: 'Bot_24x7_Player'
+        host: 'kheerasmp.falix.me', 
+        port: 25565,                
+        username: 'DEVELOPER'
     });
 
     bot.on('spawn', () => {
