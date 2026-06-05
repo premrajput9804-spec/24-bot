@@ -31,7 +31,7 @@ function createBot() {
 
     bot.on('spawn', () => {
         console.log("🔥 Bot SMP me enter kar gaya hai! Anti-Cheat bypass movement active.");
-        bot.chat('make mee oppppppppp ( ｡ •̀ ᴖ •́ ｡)💢');
+        bot.chat('/minecraft:msg PR_GAMING_YT falix pls dont kick me');
 
         const moveInterval = setInterval(() => {
             if (!bot) return;
