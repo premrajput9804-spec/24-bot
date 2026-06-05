@@ -2,7 +2,7 @@ const mineflayer = require('mineflayer');
 
 function createBot() {
     const bot = mineflayer.createBot({
-        host: 'kheerasmp.falix.gg', 
+        host: 'kheerasmp.falix.me', 
         port: 40101,                
         username: 'Bot_24x7_Player',
         hideErrors: false
