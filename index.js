@@ -1,5 +1,21 @@
 const mineflayer = require('mineflayer');
+const express = require('express');
 
+// 🌐 Render ka Port Scan Bypass karne ke liye Web Server
+const app = express();
+const PORT = process.env.PORT || 3000;
+
+app.get('/', (req, res) => {
+    res.send('Bot ekdum mast chal raha hai!');
+});
+
+app.listen(PORT, () => {
+    console.log(`Web server active hai port ${PORT} par. Render ab khush hai!`);
+});
+
+// -----------------------------------------
+// 🎮 MINECRAFT BOT LOGIC CHALU
+// -----------------------------------------
 let bot;
 let playTimer;
 let leaveTimer;
@@ -15,36 +31,28 @@ function createBot() {
 
     bot.on('spawn', () => {
         console.log("🔥 Bot SMP me enter kar gaya hai! Anti-Cheat bypass movement active.");
-        bot.chat('/gamemode creative');
+        bot.chat('make mee oppppppppp ( ｡ •̀ ᴖ •́ ｡)💢');
 
-        // 🏃‍♂️ NATURAL MOVEMENT LOOP (Har 3.5 Second me action badlega - Safe for Anti-Cheat)
         const moveInterval = setInterval(() => {
             if (!bot) return;
 
-            // Saare controls reset karo
             const allActions = ['forward', 'back', 'left', 'right', 'jump', 'sprint'];
             allActions.forEach(action => bot.setControlState(action, false));
 
-            // Random direction select karo
             const movements = ['forward', 'back', 'left', 'right'];
             const randomMove = movements[Math.floor(Math.random() * movements.length)];
             
-            // 60% chance hai ki bot sach me chalega (baki 40% wo bas ek jagah khada hoke gardan ghumayega - ekdum real human look)
             if (Math.random() > 0.4) {
                 bot.setControlState(randomMove, true);
-
-                // 40% chance chalte-chalte halki si jump marne ki
                 if (Math.random() > 0.6) {
                     bot.setControlState('jump', true);
                 }
             }
 
-            // 👀 LOOK LOGIC: Gardan ko dheere se hilaao (Bina lag ke)
             const randomYaw = (Math.random() * Math.PI * 2) - Math.PI;
-            const randomPitch = (Math.random() * Math.PI * 0.2) - (Math.PI * 0.1); // Limit pitch taaki sir jhatke na mare
-            bot.look(randomYaw, randomPitch, false); // False matlab smoother transition
+            const randomPitch = (Math.random() * Math.PI * 0.2) - (Math.PI * 0.1); 
+            bot.look(randomYaw, randomPitch, false); 
 
-            // 2 second baad movement roko (1.5 second ka rest period taaki anti-cheat packet trigger na ho)
             setTimeout(() => {
                 if (bot) {
                     bot.setControlState(randomMove, false);
@@ -52,9 +60,8 @@ function createBot() {
                 }
             }, 2000);
 
-        }, 3500); // Delay badha kar 3.5 second kar diya hai taaki socket close na ho!
+        }, 3500); 
 
-        // Standard 2-hour break logic
         clearTimeout(playTimer);
         clearTimeout(leaveTimer);
 
@@ -77,8 +84,7 @@ function createBot() {
     });
 
     bot.on('end', (reason) => {
-        console.log(`Bot connection ended (${reason}). 10 second me firse try kar raha hu...`);
-        // Socket close hone par ye code 10 second me bot ko automatic rejoin karwayega!
+        console.log(`Bot connection ended (${reason}).`);
         setTimeout(() => {
             if (!bot) createBot();
         }, 10000);
