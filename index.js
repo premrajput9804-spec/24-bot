@@ -10,7 +10,7 @@ function createBot() {
     bot = mineflayer.createBot({
         host: 'kheerasmp.falix.gg', 
         port: 40101,                
-        username: 'Bot_24x7_Player'
+        username: 'unknownbanda'
     });
 
     bot.on('spawn', () => {
