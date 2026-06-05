@@ -1,10 +1,10 @@
 const mineflayer = require('mineflayer');
 
-const bot = mineflayer.createBot({
-        host: 'kheerasmp.falix.me', // Apna Falix IP dalo (bina port ke)
-        port: 21262,                  // Apna Falix numeric port dalo
-        username: 'Bot_24x7_Player',
-        version: '26.1.2'             // 🔥 Ab ye ekdum sahi format me hai!
+function createBot() {
+    const bot = mineflayer.createBot({
+        host: 'kheerasmp.falix.gg', // Maine aapke tab se sahi host nikal liya hai!
+        port: 40101,                // Maine aapke tab ke URL se sahi port nikal liya hai!
+        username: 'Bot_24x7_Player'
     });
 
     bot.on('spawn', () => {
