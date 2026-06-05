@@ -2,13 +2,14 @@ const mineflayer = require('mineflayer');
 
 function createBot() {
     const bot = mineflayer.createBot({
-        host: 'kheerasmp.falix.me', // Maine aapke tab se sahi host nikal liya hai!
-        port: 25565,                // Maine aapke tab ke URL se sahi port nikal liya hai!
-        username: 'Bot_24x7_Player'
+        host: 'kheerasmp.falix.gg', 
+        port: 40101,                
+        username: 'Bot_24x7_Player',
+        hideErrors: false
     });
 
     bot.on('spawn', () => {
-        console.log("Bot server me aa gaya hai!");
+        console.log("🔥 BOOM! Bot successfully SMP me enter kar gaya hai!");
         bot.chat('/gamemode creative');
 
         setInterval(() => {
@@ -19,12 +20,14 @@ function createBot() {
         }, 4000);
     });
 
-    bot.on('end', () => {
-        console.log("Bot disconnect ho gaya. 10 second me firse connect ho rha hai...");
+    bot.on('end', (reason) => {
+        console.log(`Bot disconnect ho gaya (${reason}). 10 second me firse try kar raha hu...`);
         setTimeout(createBot, 10000);
     });
 
-    bot.on('error', (err) => console.log("Error aaya: ", err));
+    bot.on('error', (err) => {
+        console.log("⚠️ Connection me dikkat aa rahi hai: ", err.message);
+    });
 }
 
 createBot();
